@@ -36,7 +36,7 @@ void loop() {
   // read the analog in value:
   sensorValue = analogRead(analogInPin);
   // map it to the range of the analog out:
-  outputValue = map(sensorValue, 0, 1023, 0, 255);
+  outputValue = map(sensorValue, 0, 1023, 0, 180);
 
   // print the results to the Serial Monitor:
   Serial.print("sensor = ");
