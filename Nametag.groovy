@@ -16,7 +16,7 @@ double distancetoTop = nametagBase.getMaxZ()
 
 
 
-CSG name = CSG.text("Kevin yay so many things!", 2)
+CSG name = CSG.text("Kevin yay!", 2)
 				.movez(distancetoTop)
 
 double hackyScale = (nametagBase.getTotalX()-2)/name.getTotalX()  // FIXME this is a hack and needs to be calculated
