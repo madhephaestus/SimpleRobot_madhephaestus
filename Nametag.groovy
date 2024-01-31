@@ -30,7 +30,9 @@ name=name
 		.scaley(yScale)
 		.movex(1)
 		.movey(1)
+CSG tag = nametagBase.union(name)
+			.setName("KevinsNametag")
 
 
+return tag
 
-return [nametagBase, name]
