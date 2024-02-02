@@ -16,7 +16,7 @@ double distancetoTop = nametagBase.getMaxZ()
 
 
 
-CSG name = CSG.text("Kevin yay!", 2)
+CSG name = CSG.text("Mr. Harrington", 2)
 				.movez(distancetoTop)
 
 double xscale = (nametagBase.getTotalX()-2)/name.getTotalX()  
