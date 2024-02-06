@@ -14,7 +14,7 @@
       }
     },
     "servoBase": {
-      "x": 59.51372020057862,
+      "x": 49.0,
       "y": 22.750000000000014,
       "z": 0.0,
       "rotation": {
@@ -28,7 +28,7 @@
     },
     "MrHarringtonNametag transformed by[X=0.0 Y=-15.1185 Z=0.0 Qx=0.0 Qy=0.0 Qz=0.0 Qw=1.0] transformed by[X=0.0 Y=0.0 Z=7.399999999999999 Qx=0.0 Qy=0.0 Qz=0.0 Qw=1.0] transformed by[X=5.0 Y=0.0 Z=0.0 Qx=0.0 Qy=0.0 Qz=0.0 Qw=1.0]": {
       "x": 15.0,
-      "y": 73.75364117454956,
+      "y": 61.66807428338048,
       "z": 0.0,
       "rotation": {
         "storage": {
