@@ -60,7 +60,7 @@ CSG tag = nametagBase
 		.hull()
 		//.difference(hole)
 		.union(name)
-		.setName("MrHarringtonNametag")
+		
 
 tag.setParameter(nameTagHeightParam)
 
@@ -95,7 +95,7 @@ CSG sideName = name.rotx(-90)
 base=base.union(sideName)
 
 base.setName("servoBase")
-
+tag.setName("MrHarringtonNametag")
 tag.setManufacturing({ toMfg ->
 	return toMfg.toZMin()//move it down to the flat surface
 })	
