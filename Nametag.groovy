@@ -11,7 +11,7 @@ LengthParameter nameTagHeightParam = new LengthParameter("Nametag Height", 30, [
 LengthParameter tailLength		= new LengthParameter("Cable Cut Out Length",30,[500, 0.01])
 tailLength.setMM(130)
 
-double baseX = 80
+double baseX = 40
 double baseZ = 8
 double baseY =nameTagHeightParam.getMM()
 double textHeight =2
