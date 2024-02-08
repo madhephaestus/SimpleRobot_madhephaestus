@@ -5,6 +5,7 @@ import com.neuronrobotics.bowlerstudio.vitamins.Vitamins
 import eu.mihosoft.vrl.v3d.CSG
 import eu.mihosoft.vrl.v3d.Cube
 import eu.mihosoft.vrl.v3d.Cylinder
+import eu.mihosoft.vrl.v3d.Transform
 import eu.mihosoft.vrl.v3d.parametrics.LengthParameter
 
 LengthParameter nameTagHeightParam = new LengthParameter("Nametag Height", 30, [60, 20])
@@ -103,6 +104,15 @@ tag.setManufacturing({ toMfg ->
 base.setManufacturing({ toMfg ->
 	return toMfg.toZMin()//move it down to the flat surface
 })	
+
+servo.addAssemblyStep(1, new Transform().movez(tailLength.getMM()+servoHeight+20))
+
+horn.addAssemblyStep(2, new Transform().movey(40))
+tag.addAssemblyStep(2, new Transform().movey(40))
+
+horn.addAssemblyStep(3, new Transform().movez(20))
+horn.addAssemblyStep(4, new Transform().movez(40))
+tag.addAssemblyStep(4, new Transform().movez(40))
 
 return [horn, tag, base,servo]
 
