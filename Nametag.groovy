@@ -9,17 +9,20 @@ import eu.mihosoft.vrl.v3d.Transform
 import eu.mihosoft.vrl.v3d.parametrics.LengthParameter
 
 LengthParameter nameTagHeightParam = new LengthParameter("Nametag Height", 30, [60, 20])
+LengthParameter dhParametersLength = new LengthParameter("dh Parameters Length", 40, [60, 20])
+
 LengthParameter tailLength		= new LengthParameter("Cable Cut Out Length",30,[500, 0.01])
 tailLength.setMM(130)
 
-double baseX = 40
+double moveTagFromCenter = 5
+
+double baseX = dhParametersLength.getMM() - moveTagFromCenter
 double baseZ = 8
 double baseY =nameTagHeightParam.getMM()
 double textHeight =2
 double textToEdgeSpacing =1
 double ringDiameter = 20
 double holeDiameter=15
-double moveTagFromCenter = 5
 
 CSG nametagBase = new Cube(baseX,baseY,baseZ).toCSG()
 
@@ -64,6 +67,7 @@ CSG tag = nametagBase
 		
 
 tag.setParameter(nameTagHeightParam)
+tag.setParameter(dhParametersLength)
 
 CSG servo = Vitamins.get("hobbyServo", "mg92b")
 CSG horn = Vitamins.get("hobbyServoHorn", "standardMicro1")
