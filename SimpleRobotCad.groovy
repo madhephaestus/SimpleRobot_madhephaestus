@@ -1,7 +1,9 @@
 import com.neuronrobotics.bowlerstudio.creature.ICadGenerator
 import com.neuronrobotics.bowlerstudio.scripting.ScriptingEngine
+import com.neuronrobotics.sdk.addons.kinematics.DHLink
 import com.neuronrobotics.sdk.addons.kinematics.DHParameterKinematics
 import com.neuronrobotics.sdk.addons.kinematics.MobileBase
+import com.neuronrobotics.sdk.addons.kinematics.math.TransformNR
 
 import eu.mihosoft.vrl.v3d.CSG
 import eu.mihosoft.vrl.v3d.Cube
@@ -15,8 +17,14 @@ return new ICadGenerator(){
 	@Override
 	public ArrayList<CSG> generateCad(DHParameterKinematics arg0, int arg1) {
 		dhParametersLength.setMM(arg0.getDH_R(arg1))
+		
+		DHLink link = arg0.getDhChain().getLinks().get(arg1)
+		
+		TransformNR aStep = new TransformNR(link.DhStep(0))
+		
 		ArrayList<CSG> cadParts = ScriptingEngine.gitScriptRun("https://github.com/BancroftKineticSystemsClass/KineticSystems2024Group09.git",
 																 "Nametag.groovy")
+ 
 		
 		CSG horn = cadParts.get(0).movex(-dhParametersLength.getMM())
 		CSG tag= cadParts.get(1).movex(-dhParametersLength.getMM())
