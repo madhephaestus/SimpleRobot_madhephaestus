@@ -1,5 +1,6 @@
 // code here
 
+import com.neuronrobotics.bowlerstudio.BowlerStudioController
 import com.neuronrobotics.bowlerstudio.vitamins.Vitamins
 
 import eu.mihosoft.vrl.v3d.CSG
@@ -24,8 +25,26 @@ class NamedCadGenerator{
 	double ringDiameter = 20
 	double holeDiameter=15
 	CSG servo = Vitamins.get("hobbyServo", "mg92b")
-	CSG name = CSG.text("Mr. Harrington", textHeight)
-	.movez(baseZ/2)
+	CSG nameLocal = null
+	
+	CSG getName() {
+		if(nameLocal==null) {
+			nameLocal = CSG.text("Mr. Harrington", textHeight)
+			.movez(baseZ)
+			double xscale = (baseX-(textToEdgeSpacing*2))/nameLocal.getTotalX()
+			
+			double yScale = (baseY-(textToEdgeSpacing*2))/nameLocal.getTotalY()
+			nameLocal=nameLocal
+			.toXMin()
+			.toYMin()
+			.scalex(xscale)
+			.scaley(yScale)
+			.movex(textToEdgeSpacing)
+			.movey(textToEdgeSpacing)
+		}
+		
+		return nameLocal
+	}
 	ArrayList<CSG> makeBase(){
 	}
 	ArrayList<CSG> makeLinks(){
@@ -38,31 +57,27 @@ class NamedCadGenerator{
 
 		double distancetoTop = nametagBase.getMaxZ()
 
-		double xscale = (nametagBase.getTotalX()-(textToEdgeSpacing*2))/name.getTotalX()
 
-		double yScale = (nametagBase.getTotalY()-(textToEdgeSpacing*2))/name.getTotalY()
 
-		name=name
-				.toXMin()
-				.toYMin()
-				.scalex(xscale)
-				.scaley(yScale)
-				.movex(textToEdgeSpacing)
-				.movey(textToEdgeSpacing)
+
 		CSG loop = new Cylinder(ringDiameter/2,baseZ).toCSG()
 				.toXMax()
 				.movey(baseY/2)
 
-		CSG hole = new Cylinder(holeDiameter/2,baseZ).toCSG()
-				.movex(-ringDiameter/2)
-				.movey(baseY/2)
-
+//		CSG hole = new Cylinder(holeDiameter/2,baseZ).toCSG()
+//				.movex(-ringDiameter/2)
+//				.movey(baseY/2)
+		//BowlerStudioController.clearCSG()		
+		//BowlerStudioController.addCsg(nametagBase)
+		
 		CSG tag = nametagBase
 				.union(loop)
 				.hull()
 				//.difference(hole)
-				.union(name)
-
+				.union(getName())
+		//BowlerStudioController.clearCSG()
+	    //BowlerStudioController.addCsg(nametagBase)
+				
 
 		tag.setParameter(nameTagHeightParam)
 		tag.setParameter(dhParametersLength)
@@ -101,7 +116,7 @@ class NamedCadGenerator{
 				.toZMax()
 				.difference(servo)
 
-		CSG sideName = name.rotx(-90)
+		CSG sideName = getName().rotx(-90)
 				.toYMax()
 				.movey(base.getMinY())
 				.toXMin()
