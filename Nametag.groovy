@@ -2,6 +2,7 @@
 
 import com.neuronrobotics.bowlerstudio.BowlerStudioController
 import com.neuronrobotics.bowlerstudio.vitamins.Vitamins
+import com.neuronrobotics.sdk.addons.kinematics.math.TransformNR
 
 import eu.mihosoft.vrl.v3d.CSG
 import eu.mihosoft.vrl.v3d.Cube
@@ -26,83 +27,26 @@ class NamedCadGenerator{
 	double holeDiameter=15
 	CSG servo = Vitamins.get("hobbyServo", "mg92b")
 	CSG nameLocal = null
-	
+
 	CSG getName() {
 		if(nameLocal==null) {
 			nameLocal = CSG.text("Mr. Harrington", textHeight)
-			.movez(baseZ)
+					.movez(baseZ)
 			double xscale = (baseX-(textToEdgeSpacing*2))/nameLocal.getTotalX()
-			
+
 			double yScale = (baseY-(textToEdgeSpacing*2))/nameLocal.getTotalY()
 			nameLocal=nameLocal
-			.toXMin()
-			.toYMin()
-			.scalex(xscale)
-			.scaley(yScale)
-			.movex(textToEdgeSpacing)
-			.movey(textToEdgeSpacing)
+					.toXMin()
+					.toYMin()
+					.scalex(xscale)
+					.scaley(yScale)
+					.movex(textToEdgeSpacing)
+					.movey(textToEdgeSpacing)
 		}
-		
+
 		return nameLocal
 	}
 	ArrayList<CSG> makeBase(){
-	}
-	ArrayList<CSG> makeLinks(){
-		CSG nametagBase = new Cube(baseX,baseY,baseZ).toCSG()
-		double distanceToBottom = nametagBase.getMinZ()
-
-		nametagBase=nametagBase.movez(-distanceToBottom)
-				.toXMin()
-				.toYMin()
-
-		double distancetoTop = nametagBase.getMaxZ()
-
-
-
-
-		CSG loop = new Cylinder(ringDiameter/2,baseZ).toCSG()
-				.toXMax()
-				.movey(baseY/2)
-
-//		CSG hole = new Cylinder(holeDiameter/2,baseZ).toCSG()
-//				.movex(-ringDiameter/2)
-//				.movey(baseY/2)
-		//BowlerStudioController.clearCSG()		
-		//BowlerStudioController.addCsg(nametagBase)
-		
-		CSG tag = nametagBase
-				.union(loop)
-				.hull()
-				//.difference(hole)
-				.union(getName())
-		//BowlerStudioController.clearCSG()
-	    //BowlerStudioController.addCsg(nametagBase)
-				
-
-		tag.setParameter(nameTagHeightParam)
-		tag.setParameter(dhParametersLength)
-		CSG horn = Vitamins.get("hobbyServoHorn", "standardMicro1")
-				.movez(servo.getMaxZ())
-		tag =tag.moveToCenterY()
-				.movez(servo.getMaxZ())
-				.movex(moveTagFromCenter)
-				.difference(horn)
-		tag.setName("MrHarringtonNametag")
-		tag.setManufacturing({ toMfg ->
-			return toMfg.toZMin()//move it down to the flat surface
-		})
-		horn.addAssemblyStep(2, new Transform().movey(40))
-		tag.addAssemblyStep(2, new Transform().movey(40))
-
-		horn.addAssemblyStep(3, new Transform().movez(20))
-		horn.addAssemblyStep(4, new Transform().movez(40))
-		tag.addAssemblyStep(4, new Transform().movez(40))
-		return [horn, tag]
-	}
-
-	ArrayList<CSG> generate(){
-
-
 		tailLength.setMM(130)
 
 		double servoy = servo.getTotalY()
@@ -133,9 +77,67 @@ class NamedCadGenerator{
 		})
 
 		servo.addAssemblyStep(1, new Transform().movez(tailLength.getMM()+servoHeight+20))
+	}
+	ArrayList<CSG> makeLinks(TransformNR linkDim){
+		
+		// HW 2 Set baseX here before it is used from the information in the  linkDim object
+		
+		CSG nametagBase = new Cube(baseX,baseY,baseZ).toCSG()
+		double distanceToBottom = nametagBase.getMinZ()
+
+		nametagBase=nametagBase.movez(-distanceToBottom)
+				.toXMin()
+				.toYMin()
+
+		double distancetoTop = nametagBase.getMaxZ()
 
 
-		return [ makeLinks(),base, servo]
+
+
+		CSG loop = new Cylinder(ringDiameter/2,baseZ).toCSG()
+				.toXMax()
+				.movey(baseY/2)
+
+		//		CSG hole = new Cylinder(holeDiameter/2,baseZ).toCSG()
+		//				.movex(-ringDiameter/2)
+		//				.movey(baseY/2)
+		//BowlerStudioController.clearCSG()
+		//BowlerStudioController.addCsg(nametagBase)
+
+		CSG tag = nametagBase
+				.union(loop)
+				.hull()
+				//.difference(hole)
+				.union(getName())
+		//BowlerStudioController.clearCSG()
+		//BowlerStudioController.addCsg(nametagBase)
+
+
+		tag.setParameter(nameTagHeightParam)
+		tag.setParameter(dhParametersLength)
+		CSG horn = Vitamins.get("hobbyServoHorn", "standardMicro1")
+				.movez(servo.getMaxZ())
+		tag =tag.moveToCenterY()
+				.movez(servo.getMaxZ())
+				.movex(moveTagFromCenter)
+				.difference(horn)
+		tag.setName("MrHarringtonNametag")
+		tag.setManufacturing({ toMfg ->
+			return toMfg.toZMin()//move it down to the flat surface
+		})
+		horn.addAssemblyStep(2, new Transform().movey(40))
+		tag.addAssemblyStep(2, new Transform().movey(40))
+
+		horn.addAssemblyStep(3, new Transform().movez(20))
+		horn.addAssemblyStep(4, new Transform().movez(40))
+		tag.addAssemblyStep(4, new Transform().movez(40))
+		return [horn, tag]
+	}
+
+	ArrayList<CSG> generate(){
+		ArrayList<CSG> links = makeLinks()
+		links.addAll(makeBase())
+		return links
 	}
 }
 

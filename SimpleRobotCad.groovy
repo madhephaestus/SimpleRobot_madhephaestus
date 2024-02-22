@@ -22,9 +22,10 @@ return new ICadGenerator(){
 		
 		TransformNR aStep = new TransformNR(link.DhStep(0))
 		
-		ArrayList<CSG> cadParts = ScriptingEngine.gitScriptRun("https://github.com/BancroftKineticSystemsClass/KineticSystems2024Group09.git",
-																 "Nametag.groovy")
- 
+		def cadGen = ScriptingEngine.gitScriptRun("https://github.com/BancroftKineticSystemsClass/KineticSystems2024Group09.git",
+																 "Nametag.groovy",[])
+		println cadGen
+		ArrayList<CSG> cadParts=  cadGen.makeLinks(aStep)
 		
 		CSG horn = cadParts.get(0).movex(-dhParametersLength.getMM())
 		CSG tag= cadParts.get(1).movex(-dhParametersLength.getMM())
