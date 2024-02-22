@@ -77,6 +77,7 @@ class NamedCadGenerator{
 		})
 
 		servo.addAssemblyStep(1, new Transform().movez(tailLength.getMM()+servoHeight+20))
+		return [servo, base]
 	}
 	ArrayList<CSG> makeLinks(TransformNR linkDim){
 		
