@@ -14,6 +14,8 @@ import eu.mihosoft.vrl.v3d.parametrics.LengthParameter
 return new ICadGenerator(){
 	LengthParameter dhParametersLength = new LengthParameter("dh Parameters Length", 40, [60, 20])
 	
+	def cadGen = ScriptingEngine.gitScriptRun("https://github.com/BancroftKineticSystemsClass/KineticSystems2024Group09.git",
+															 "Nametag.groovy",[])
 	@Override
 	public ArrayList<CSG> generateCad(DHParameterKinematics arg0, int arg1) {
 		dhParametersLength.setMM(arg0.getDH_R(arg1))
@@ -21,9 +23,7 @@ return new ICadGenerator(){
 		DHLink link = arg0.getDhChain().getLinks().get(arg1)
 		
 		TransformNR aStep = new TransformNR(link.DhStep(0))
-		
-		def cadGen = ScriptingEngine.gitScriptRun("https://github.com/BancroftKineticSystemsClass/KineticSystems2024Group09.git",
-																 "Nametag.groovy",[])
+	
 		println cadGen
 		ArrayList<CSG> cadParts=  cadGen.makeLinks(aStep)
 		
@@ -40,10 +40,9 @@ return new ICadGenerator(){
 
 	@Override
 	public ArrayList<CSG> generateBody(MobileBase arg0) {
-		ArrayList<CSG> cadParts = ScriptingEngine.gitScriptRun("https://github.com/BancroftKineticSystemsClass/KineticSystems2024Group09.git",
-			"Nametag.groovy")
-		CSG servo =  cadParts.get(3)
-		CSG base = cadParts.get(2)
+		ArrayList<CSG> cadParts = cadGen.makeBase()
+		CSG servo =  cadParts.get(0)
+		CSG base = cadParts.get(1)
 		// TODO Auto-generated method stub
 		ArrayList<CSG> back =[]
 		back.add(servo)
