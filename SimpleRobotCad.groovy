@@ -49,12 +49,7 @@ return new ICadGenerator(){
 		back.add(base)
 		for(CSG c:back)
 			c.setManipulator(arg0.getRootListener())
-		for(DHParameterKinematics kin:arg0.getAllDHChains()) {
-			CSG limbRoot =new Cube(1).toCSG()
-			limbRoot.setManipulator(kin.getRootListener())
-			back.add(limbRoot)
 
-		}
 		return back;
 	}
 	
