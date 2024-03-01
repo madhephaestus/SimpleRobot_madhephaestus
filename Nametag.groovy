@@ -12,13 +12,13 @@ import eu.mihosoft.vrl.v3d.parametrics.LengthParameter
 
 class NamedCadGenerator{
 	LengthParameter nameTagHeightParam = new LengthParameter("Nametag Height", 30, [60, 20])
-	LengthParameter dhParametersLength = new LengthParameter("dh Parameters Length", 40, [60, 20])
+	//LengthParameter dhParametersLength = new LengthParameter("dh Parameters Length", 40, [60, 20])
 
 	LengthParameter tailLength		= new LengthParameter("Cable Cut Out Length",30,[500, 0.01])
 
 	double moveTagFromCenter = 5
 
-	double baseX = dhParametersLength.getMM() - moveTagFromCenter
+	//double baseX = dhParametersLength.getMM() - moveTagFromCenter
 	double baseZ = 8
 	double baseY =nameTagHeightParam.getMM()
 	double textHeight =2
@@ -28,8 +28,9 @@ class NamedCadGenerator{
 	CSG servo = Vitamins.get("hobbyServo", "mg92b")
 	CSG nameLocal = null
 
-	CSG getName() {
-		if(nameLocal==null) {
+	CSG getName(double baseX) {
+		println "Creating name of size "+baseX
+		//if(nameLocal==null) {
 			nameLocal = CSG.text("Mr. Harrington", textHeight)
 					.movez(baseZ)
 			double xscale = (baseX-(textToEdgeSpacing*2))/nameLocal.getTotalX()
@@ -42,13 +43,15 @@ class NamedCadGenerator{
 					.scaley(yScale)
 					.movex(textToEdgeSpacing)
 					.movey(textToEdgeSpacing)
-		}
+		//}
 
 		return nameLocal
 	}
 	ArrayList<CSG> makeBase(){
 		tailLength.setMM(130)
-
+		
+		double baseX = 40;
+		
 		double servoy = servo.getTotalY()
 		double servox = servo.getTotalX()
 		double basex = servox + baseX + moveTagFromCenter
@@ -60,7 +63,7 @@ class NamedCadGenerator{
 				.toZMax()
 				.difference(servo)
 
-		CSG sideName = getName().rotx(-90)
+		CSG sideName = getName(baseX).rotx(-90)
 				.toYMax()
 				.movey(base.getMinY())
 				.toXMin()
@@ -82,6 +85,7 @@ class NamedCadGenerator{
 	ArrayList<CSG> makeLinks(TransformNR linkDim){
 		
 		// HW 2 Set baseX here before it is used from the information in the  linkDim object
+		double baseX = linkDim.getX() - moveTagFromCenter
 		
 		CSG nametagBase = new Cube(baseX,baseY,baseZ).toCSG()
 		double distanceToBottom = nametagBase.getMinZ()
@@ -109,13 +113,13 @@ class NamedCadGenerator{
 				.union(loop)
 				.hull()
 				//.difference(hole)
-				.union(getName())
+				.union(getName(baseX))
 		//BowlerStudioController.clearCSG()
 		//BowlerStudioController.addCsg(nametagBase)
 
 
 		tag.setParameter(nameTagHeightParam)
-		tag.setParameter(dhParametersLength)
+		//tag.setParameter(dhParametersLength)
 		CSG horn = Vitamins.get("hobbyServoHorn", "standardMicro1")
 				.movez(servo.getMaxZ())
 		tag =tag.moveToCenterY()

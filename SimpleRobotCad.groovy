@@ -1,4 +1,5 @@
 import com.neuronrobotics.bowlerstudio.creature.ICadGenerator
+import com.neuronrobotics.bowlerstudio.physics.TransformFactory
 import com.neuronrobotics.bowlerstudio.scripting.ScriptingEngine
 import com.neuronrobotics.sdk.addons.kinematics.DHLink
 import com.neuronrobotics.sdk.addons.kinematics.DHParameterKinematics
@@ -12,13 +13,13 @@ import eu.mihosoft.vrl.v3d.parametrics.LengthParameter
 // code here
 
 return new ICadGenerator(){
-	LengthParameter dhParametersLength = new LengthParameter("dh Parameters Length", 40, [60, 20])
+	//LengthParameter dhParametersLength = new LengthParameter("dh Parameters Length", 40, [60, 20])
 	
 	def cadGen = ScriptingEngine.gitScriptRun("https://github.com/BancroftKineticSystemsClass/KineticSystems2024Group09.git",
 															 "Nametag.groovy",[])
 	@Override
 	public ArrayList<CSG> generateCad(DHParameterKinematics arg0, int arg1) {
-		dhParametersLength.setMM(arg0.getDH_R(arg1))
+		//dhParametersLength.setMM(arg0.getDH_R(arg1))
 		
 		DHLink link = arg0.getDhChain().getLinks().get(arg1)
 		
@@ -27,8 +28,9 @@ return new ICadGenerator(){
 		println cadGen
 		ArrayList<CSG> cadParts=  cadGen.makeLinks(aStep)
 		
-		CSG horn = cadParts.get(0).movex(-dhParametersLength.getMM())
-		CSG tag= cadParts.get(1).movex(-dhParametersLength.getMM())
+		
+		CSG horn = cadParts.get(0).transformed(TransformFactory.nrToCSG(aStep).inverse())
+		CSG tag= cadParts.get(1).transformed(TransformFactory.nrToCSG(aStep).inverse())
 		
 		ArrayList<CSG> back =[]
 		back.add(horn)
