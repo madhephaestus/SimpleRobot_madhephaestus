@@ -6,7 +6,7 @@ import com.neuronrobotics.sdk.addons.kinematics.DHParameterKinematics
 import com.neuronrobotics.sdk.addons.kinematics.MobileBase
 import com.neuronrobotics.sdk.addons.kinematics.math.TransformNR
 
-import eu.mihosoft.vrl.v3d.CSG
+import eu.mihosoft.vrl.v3d.*
 import eu.mihosoft.vrl.v3d.Cube
 import eu.mihosoft.vrl.v3d.parametrics.LengthParameter
 
@@ -29,8 +29,10 @@ return new ICadGenerator(){
 		ArrayList<CSG> cadParts=  cadGen.makeLinks(aStep)
 		
 		
-		CSG horn = cadParts.get(0).transformed(TransformFactory.nrToCSG(aStep).inverse())
-		CSG tag= cadParts.get(1).transformed(TransformFactory.nrToCSG(aStep).inverse())
+		Transform nrToCSG = TransformFactory.nrToCSG(aStep).inverse()
+		
+		CSG horn = cadParts.get(0).transformed(nrToCSG)
+		CSG tag= cadParts.get(1).transformed(nrToCSG)
 		
 		ArrayList<CSG> back =[]
 		back.add(horn)

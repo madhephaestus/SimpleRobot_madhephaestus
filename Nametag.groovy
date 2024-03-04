@@ -140,7 +140,7 @@ class NamedCadGenerator{
 	}
 
 	ArrayList<CSG> generate(){
-		ArrayList<CSG> links = makeLinks()
+		ArrayList<CSG> links = makeLinks(new TransformNR(100,0,0,new RotationNR()))
 		links.addAll(makeBase())
 		return links
 	}
