@@ -10,14 +10,14 @@ if(base==null)
 	throw new RuntimeException("Please run the SimpleRobot.xml before running this script!")
 // Load the arm from the robot
 DHParameterKinematics arm = base.getAllDHChains().get(0)
-
+// Create a tip target of 150,200
 TransformNR target = new TransformNR(150,200,0,new RotationNR())
 // send the target to the arm with 0 seconds for transition
 arm.setDesiredTaskSpaceTransform(target, 0)
-
+// wait for the  arm to arrive at the location specified
 Thread.sleep(500)
-
+// Read the location of the tip after it finished moving
 TransformNR result = arm.getCurrentTaskSpaceTransform()
-
+// print the results
 println "Target = "+target
 println "Result = "+result
