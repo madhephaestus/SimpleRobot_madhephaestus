@@ -25,3 +25,10 @@ double yError = target.getY() - result.getY()
 
 // print the results
 println "Result (should be 0,0)= "+xError+","+yError
+
+if(Math.abs(xError)>0.001 || Math.abs(yError) > 0.001) {
+	println "FAIL, the  error is outside of the bounds"
+	println result
+}else {
+	println "Success!"
+}
