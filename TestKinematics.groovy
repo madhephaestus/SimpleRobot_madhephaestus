@@ -19,6 +19,7 @@ Thread.sleep(500)
 // Read the location of the tip after it finished moving
 TransformNR result = arm.getCurrentTaskSpaceTransform()
 
+// compute the tip error by subtracting result from the intended target
 double xError = target.getX() - result.getX()
 double yError = target.getY() - result.getY()
 
