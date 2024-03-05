@@ -18,6 +18,9 @@ arm.setDesiredTaskSpaceTransform(target, 0)
 Thread.sleep(500)
 // Read the location of the tip after it finished moving
 TransformNR result = arm.getCurrentTaskSpaceTransform()
+
+double xError = target.getX() - result.getX()
+double yError = target.getY() - result.getY()
+
 // print the results
-println "Target = "+target
-println "Result = "+result
+println "Result (should be 0,0)= "+xError+","+yError
