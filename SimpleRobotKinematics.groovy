@@ -14,6 +14,10 @@ return new DhInverseSolver() {
 		double xSquared = Math.pow(xTarget, 2)
 		double ySquared = Math.pow(yTarget, 2)
 		double Hyp = Math.sqrt(xSquared+ySquared)
+		if((l1+l2)<=Hyp) {
+			println "Hyp check failed, exiting"
+			throw new RuntimeException("FAIL! the hypotinuse must be less than the sum of the link lengths")
+		}
 		double theta1 = Math.atan2(yTarget, xTarget)
 		
 		
