@@ -11,8 +11,14 @@ return new DhInverseSolver() {
 		double l1 = arg2.getLinks().get(0).getRadius()
 		double l2 = arg2.getLinks().get(1).getRadius()
 		println "Targeted to "+xTarget+" , "+yTarget
-		arg1[0]=100
-		arg1[1]=40
+		double xSquared = Math.pow(xTarget, 2)
+		double ySquared = Math.pow(yTarget, 2)
+		double Hyp = Math.sqrt(xSquared+ySquared)
+		double theta1 = Math.atan2(yTarget, xTarget)
+		
+		
+		arg1[0]=Math.toDegrees(theta1)
+		arg1[1]=0
 		return arg1;
 	}
 	
