@@ -11,9 +11,9 @@ if(base==null)
 // Load the arm from the robot
 DHParameterKinematics arm = base.getAllDHChains().get(0)
 
-for (int i=0;i<70;i++){
+for (int i=0;i<150;i++){
 // Create a tip target of 150,200
-TransformNR target = new TransformNR(120,120+i,0,new RotationNR())
+TransformNR target = new TransformNR(120-i,100,0,new RotationNR())
 // send the target to the arm with 0 seconds for transition
 arm.setDesiredTaskSpaceTransform(target, 0)
 // wait for the  arm to arrive at the location specified
