@@ -2,6 +2,7 @@
 
 import com.neuronrobotics.bowlerstudio.BowlerStudioController
 import com.neuronrobotics.bowlerstudio.vitamins.Vitamins
+import com.neuronrobotics.sdk.addons.kinematics.math.RotationNR
 import com.neuronrobotics.sdk.addons.kinematics.math.TransformNR
 
 import eu.mihosoft.vrl.v3d.CSG
@@ -47,7 +48,7 @@ class NamedCadGenerator{
 
 		return nameLocal
 	}
-	ArrayList<CSG> makeBase(){
+	ArrayList<CSG> makeBase(String motorType, String motorSize){
 		tailLength.setMM(130)
 		
 		double baseX = 40;
@@ -82,7 +83,7 @@ class NamedCadGenerator{
 		servo.addAssemblyStep(1, new Transform().movez(tailLength.getMM()+servoHeight+20))
 		return [servo, base]
 	}
-	ArrayList<CSG> makeLinks(TransformNR linkDim){
+	ArrayList<CSG> makeLinks(TransformNR linkDim,String shaftType, String shaftSize,String motorType, String motorSize){
 		
 		// HW 2 Set baseX here before it is used from the information in the  linkDim object
 		double baseX = linkDim.getX() - moveTagFromCenter
@@ -140,8 +141,8 @@ class NamedCadGenerator{
 	}
 
 	ArrayList<CSG> generate(){
-		ArrayList<CSG> links = makeLinks(new TransformNR(100,0,0,new RotationNR()))
-		links.addAll(makeBase())
+		ArrayList<CSG> links = makeLinks(new TransformNR(100,0,0,new RotationNR()),"hobbyServoHorn","standardMicro1","hobbyServo","mg92b")
+		links.addAll(makeBase("hobbyServo","mg92b"))
 		return links
 	}
 }
