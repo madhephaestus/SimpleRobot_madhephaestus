@@ -26,7 +26,6 @@ class NamedCadGenerator{
 	double textToEdgeSpacing =1
 	double ringDiameter = 20
 	double holeDiameter=15
-	CSG servo = Vitamins.get("hobbyServo", "mg92b")
 	CSG nameLocal = null
 
 	CSG getName(double baseX) {
@@ -52,12 +51,12 @@ class NamedCadGenerator{
 		tailLength.setMM(130)
 		
 		double baseX = 40;
-		
+		CSG servo = Vitamins.get(motorType,motorSize)
 		double servoy = servo.getTotalY()
 		double servox = servo.getTotalX()
 		double basex = servox + baseX + moveTagFromCenter
 		double basey = servoy + moveTagFromCenter
-		HashMap<String,Object> servoConfig = Vitamins.getConfiguration( "hobbyServo", "mg92b")
+		HashMap<String,Object> servoConfig = Vitamins.getConfiguration( motorType, motorSize)
 		double servoHeight = servoConfig.get("servoShaftSideHeight")
 
 		CSG base = new Cube(basex,basey,servoHeight).toCSG()
