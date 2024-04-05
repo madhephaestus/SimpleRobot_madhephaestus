@@ -8,6 +8,7 @@ import com.neuronrobotics.sdk.addons.kinematics.math.TransformNR
 import eu.mihosoft.vrl.v3d.CSG
 import eu.mihosoft.vrl.v3d.Cube
 import eu.mihosoft.vrl.v3d.Cylinder
+import eu.mihosoft.vrl.v3d.Hexagon
 import eu.mihosoft.vrl.v3d.Transform
 import eu.mihosoft.vrl.v3d.parametrics.LengthParameter
 
@@ -27,6 +28,7 @@ class NamedCadGenerator{
 	double ringDiameter = 20
 	double holeDiameter=15
 	CSG nameLocal = null
+	double servoMaxZ =0;
 
 	CSG getName(double baseX) {
 		println "Creating name of size "+baseX
@@ -52,6 +54,8 @@ class NamedCadGenerator{
 		
 		double baseX = 40;
 		CSG servo = Vitamins.get(motorType,motorSize)
+		servoMaxZ = servo.getMaxZ();
+		
 		double servoy = servo.getTotalY()
 		double servox = servo.getTotalX()
 		double basex = servox + baseX + moveTagFromCenter
@@ -83,7 +87,13 @@ class NamedCadGenerator{
 		return [servo, base]
 	}
 	ArrayList<CSG> makeLinks(TransformNR linkDim,String shaftType, String shaftSize,String motorType, String motorSize){
-		
+		CSG servo;
+		if(motorType!=null) {
+			servo = Vitamins.get(motorType,motorSize)
+			servoMaxZ = servo.getMaxZ();
+		}else {
+			servo = new Hexagon(6.7, 100).toCSG();
+		}
 		// HW 2 Set baseX here before it is used from the information in the  linkDim object
 		double baseX = linkDim.getX() - moveTagFromCenter
 		
@@ -120,10 +130,10 @@ class NamedCadGenerator{
 
 		tag.setParameter(nameTagHeightParam)
 		//tag.setParameter(dhParametersLength)
-		CSG horn = Vitamins.get("hobbyServoHorn", "standardMicro1")
-				.movez(servo.getMaxZ())
+		CSG horn = Vitamins.get(shaftType, shaftSize)
+				.movez(servoMaxZ)
 		tag =tag.moveToCenterY()
-				.movez(servo.getMaxZ())
+				.movez(servoMaxZ)
 				.movex(moveTagFromCenter)
 				.difference(horn)
 		tag.setName("MrHarringtonNametag")
