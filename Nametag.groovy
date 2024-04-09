@@ -4,6 +4,7 @@ import com.neuronrobotics.bowlerstudio.BowlerStudioController
 import com.neuronrobotics.bowlerstudio.vitamins.Vitamins
 import com.neuronrobotics.sdk.addons.kinematics.math.RotationNR
 import com.neuronrobotics.sdk.addons.kinematics.math.TransformNR
+import com.neuronrobotics.bowlerstudio.physics.TransformFactory
 
 import eu.mihosoft.vrl.v3d.CSG
 import eu.mihosoft.vrl.v3d.Cube
@@ -92,8 +93,9 @@ class NamedCadGenerator{
 			servo = Vitamins.get(motorType,motorSize)
 			servoMaxZ = servo.getMaxZ();
 		}else {
-			servo = new Hexagon(6.7, 100).toCSG();
+			servo = new Hexagon(6.7, 100).toCSG().movez(-50);
 		}
+		servo = servo.transformed(TransformFactory.nrToCSG(linkDim))
 		// HW 2 Set baseX here before it is used from the information in the  linkDim object
 		double baseX = linkDim.getX() - moveTagFromCenter
 		
@@ -136,6 +138,7 @@ class NamedCadGenerator{
 				.movez(servoMaxZ)
 				.movex(moveTagFromCenter)
 				.difference(horn)
+				.union(servo)
 		tag.setName("MrHarringtonNametag")
 		tag.setManufacturing({ toMfg ->
 			return toMfg.toZMin()//move it down to the flat surface
