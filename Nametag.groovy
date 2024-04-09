@@ -67,7 +67,7 @@ class NamedCadGenerator{
 		CSG base = new Cube(basex,basey,servoHeight).toCSG()
 				.toZMax()
 				.difference(servo)
-
+		baseY =servoHeight
 		CSG sideName = getName(baseX).rotx(-90)
 				.toYMax()
 				.movey(base.getMinY())
@@ -88,7 +88,10 @@ class NamedCadGenerator{
 		return [servo, base]
 	}
 	ArrayList<CSG> makeLinks(TransformNR linkDim,String shaftType, String shaftSize,String motorType, String motorSize){
+		baseY =nameTagHeightParam.getMM()
+		
 		CSG servo;
+		double endOfLinkCutout = 20
 		if(motorType!=null) {
 			servo = Vitamins.get(motorType,motorSize)
 			servoMaxZ = servo.getMaxZ();
@@ -97,39 +100,33 @@ class NamedCadGenerator{
 		}
 		servo = servo.transformed(TransformFactory.nrToCSG(linkDim))
 		// HW 2 Set baseX here before it is used from the information in the  linkDim object
-		double baseX = linkDim.getX() - moveTagFromCenter
+		double baseX = linkDim.getX() - moveTagFromCenter -endOfLinkCutout
 		
 		CSG nametagBase = new Cube(baseX,baseY,baseZ).toCSG()
 		double distanceToBottom = nametagBase.getMinZ()
-
+		
+		CSG endEffectorUpright = new Cube(baseZ,baseY,servoMaxZ+baseZ).toCSG()
+										.toZMin()
+										.movez(-baseZ)
+										.toXMax()
+										.movex(-endOfLinkCutout)
+									
+		CSG endEffectorHolder  = new Cube(endOfLinkCutout*2,baseY,baseZ).toCSG()
+									.toZMax()
+									.union(endEffectorUpright)
+									.transformed(TransformFactory.nrToCSG(linkDim))
+									
 		nametagBase=nametagBase.movez(-distanceToBottom)
 				.toXMin()
 				.toYMin()
-
 		double distancetoTop = nametagBase.getMaxZ()
-
-
-
-
 		CSG loop = new Cylinder(ringDiameter/2,baseZ).toCSG()
 				.toXMax()
 				.movey(baseY/2)
-
-		//		CSG hole = new Cylinder(holeDiameter/2,baseZ).toCSG()
-		//				.movex(-ringDiameter/2)
-		//				.movey(baseY/2)
-		//BowlerStudioController.clearCSG()
-		//BowlerStudioController.addCsg(nametagBase)
-
 		CSG tag = nametagBase
 				.union(loop)
 				.hull()
-				//.difference(hole)
 				.union(getName(baseX))
-		//BowlerStudioController.clearCSG()
-		//BowlerStudioController.addCsg(nametagBase)
-
-
 		tag.setParameter(nameTagHeightParam)
 		//tag.setParameter(dhParametersLength)
 		CSG horn = Vitamins.get(shaftType, shaftSize)
@@ -138,7 +135,8 @@ class NamedCadGenerator{
 				.movez(servoMaxZ)
 				.movex(moveTagFromCenter)
 				.difference(horn)
-				.union(servo)
+				.union(endEffectorHolder)
+				.difference(servo)
 		tag.setName("MrHarringtonNametag")
 		tag.setManufacturing({ toMfg ->
 			return toMfg.toZMin()//move it down to the flat surface
