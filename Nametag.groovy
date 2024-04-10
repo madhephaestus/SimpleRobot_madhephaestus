@@ -13,7 +13,7 @@ import eu.mihosoft.vrl.v3d.Transform
 import eu.mihosoft.vrl.v3d.parametrics.LengthParameter
 
 class NamedCadGenerator{
-	LengthParameter nameTagHeightParam = new LengthParameter("Nametag Height", 30, [60, 20])
+	LengthParameter nameTagHeightParam = new LengthParameter("Nametag Height", 40, [60, 20])
 	//LengthParameter dhParametersLength = new LengthParameter("dh Parameters Length", 40, [60, 20])
 
 	LengthParameter tailLength		= new LengthParameter("Cable Cut Out Length",30,[500, 0.01])
