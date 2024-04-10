@@ -13,9 +13,22 @@
         }
       }
     },
+    "MrHarringtonNametag transformed by[X=-150.0 Y=0.0 Z=0.0 Qx=0.0 Qy=0.0 Qz=0.0 Qw=1.0]": {
+      "x": 165.0,
+      "y": 21.238364007176678,
+      "z": 0.0,
+      "rotation": {
+        "storage": {
+          "q0": 1.0,
+          "q1": 0.0,
+          "q2": 0.0,
+          "q3": 0.0
+        }
+      }
+    },
     "servoBase": {
-      "x": 29.030025053958802,
-      "y": 56.647319131064556,
+      "x": 33.635336929972496,
+      "y": 66.48985169319208,
       "z": 0.0,
       "rotation": {
         "storage": {
@@ -29,6 +42,19 @@
     "MrHarringtonNametag transformed by[X=0.0 Y=-15.1185 Z=0.0 Qx=0.0 Qy=0.0 Qz=0.0 Qw=1.0] transformed by[X=0.0 Y=0.0 Z=7.399999999999999 Qx=0.0 Qy=0.0 Qz=0.0 Qw=1.0] transformed by[X=5.0 Y=0.0 Z=0.0 Qx=0.0 Qy=0.0 Qz=0.0 Qw=1.0]": {
       "x": 15.0,
       "y": 61.66807428338048,
+      "z": 0.0,
+      "rotation": {
+        "storage": {
+          "q0": 1.0,
+          "q1": 0.0,
+          "q2": 0.0,
+          "q3": 0.0
+        }
+      }
+    },
+    "MrHarringtonNametag transformed by[X=-100.0 Y=0.0 Z=0.0 Qx=0.0 Qy=0.0 Qz=0.0 Qw=1.0]": {
+      "x": 115.0,
+      "y": 8.000000000000004,
       "z": 0.0,
       "rotation": {
         "storage": {
