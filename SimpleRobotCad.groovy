@@ -43,6 +43,10 @@ return new ICadGenerator(){
 		CSG horn = cadParts.get(0).transformed(nrToCSG)
 		CSG tag= cadParts.get(1).transformed(nrToCSG)
 		
+		tag.setManufacturing({ toMfg ->
+			return toMfg.rotx(90).toZMin()//move it down to the flat surface
+		})
+		
 		ArrayList<CSG> back =[]
 		back.add(horn)
 		back.add(tag)
